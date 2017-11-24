@@ -1,0 +1,70 @@
+
+<div class="navbar-fixed">
+	<nav class="blue darken-4">
+		<div class="nav-wrapper">
+			<div class="brand-logo center">
+			<a href="" style="color: white; font-size:35px;" *ngIf="!showForm"><i data-activates="slide-out" class="material-icons waves-effect waves-circle waves-light button-collapse" style="font-size: 30px; width: 65px;">arrow_back</i></a>
+				{{ title }}
+			</div>
+		</div>
+	</nav>
+</div>
+
+<div class="wrapper">
+	<div class="main-logged" style="margin-right: auto; margin-left: auto; margin-top: -8px;" style="background-color:transparent;">
+		<div class="container">
+			<div class="sendBandForm" *ngIf="showForm">
+				<div class="card-panel grey lighten-5 z-depth-1" style="margin-top:20vh;">
+					<div class="row">
+						<h5><p class="col s12 center-align">Welcome!</p></h5>
+						<h6 class="col s12 center-align">Type the name of an artist to see their events and details.</h6>
+
+						<form class="col s12" ngNativeValidate [formGroup] = "sendBandForm" (ngSubmit)="onSubmit(sendBandForm.value)">
+							<div class="input-field col s10 offset-s1">
+								<input type="text" id="bandname" name="bandname" formControlName="bandname" required>
+								<label for="bandname">Band Name</label>
+								<input class="btn green" type="submit" value="Submit">
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			
+			<div id="bandInfo" class="bandInfo" *ngIf="!showForm">
+				<div class="card-panel" style="background-image: url('https://www.transparenttextures.com/patterns/60-lines.png');">
+						<div class="row">
+							<div class="center-align">
+								<div class="col s12">
+									<img class="circle" style="min-width:200px; max-width:200px; box-shadow: 5px 5px 5px #888888;" src="{{ bandInfo.image_url }}"/>
+								</div>
+								<h4 class="center-align">{{ bandInfo.name }}</h4>
+								<a target="_blank" class="waves-effect waves-light btn" value="Facebook" style="color:white; background-color:#3b5998;" href="{{ bandInfo.facebook_page_url }}" [ngClass]="{'disabled' : faceDisabled}"><i class="fa fa-facebook-official"> </i> Facebook page</a>
+							</div>
+						</div>
+				</div>
+				
+				<div class="card-panel" >
+					<div class="row">
+						<div *ngFor="let event of eventsInfo">
+							<div class="col s12 m6">
+								<div class="card grey lighten-5">
+									<div class="card-content black-text">
+										<span class="card-title">{{ event.venue.name }}</span>
+										<p>Date/Time: {{ event.datetime | date: 'dd/MM/yy hh:mm a'}}</p>
+										<p>City: {{ event.venue.city }}</p>
+										<p>Country: {{ event.venue.country }}</p>
+									</div>
+									<div class="card-action">
+										<a href="{{ event.url }}" target="_blank" style="color:#64b5f6;">View event</a>
+										<a target="_blank" href="https://www.google.com/maps/?q={{event.venue.latitude}},{{event.venue.longitude}}" style="color:#64b5f6;">Map</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+		   
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
